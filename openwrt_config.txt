@@ -1,0 +1,105 @@
+主要openwrt国内分支
+lienol
+https://github.com/Lienol/openwrt
+
+immortalwrt
+https://github.com/immortalwrt/immortalwrt
+
+lede（内核新但是用老防火墙iptables）
+https://github.com/coolsnowwolf/lede
+
+拉取单个指定分支命令
+
+git clone -b 25.12 --single-branch --filter=blob:none https://github.com/Lienol/openwrt.git
+
+git clone -b master --single-branch --filter=blob:none https://github.com/immortalwrt/immortalwrt
+
+
+
+1.新增软件源修改如下文件；
+vi feeds.conf.default
+
+插件包
+src-git kenzo https://github.com/kenzok8/openwrt-packages
+src-git small https://github.com/kenzok8/small
+
+单个插件
+src-git momo https://github.com/nikkinikki-org/OpenWrt-momo.git;main
+# src-git nikki https://github.com/nikkinikki-org/OpenWrt-nikki.git;main
+src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git;main
+src-git passwall_luci https://github.com/Openwrt-Passwall/openwrt-passwall.git;main
+src-git mosdns https://github.com/sbwml/luci-app-mosdns.git;v5
+src-git daed https://github.com/QiuSimons/luci-app-daed.git
+
+
+# 移除 openwrt feeds 自带的核心库
+rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,v2ray-plugin,xray-plugin,geoview,shadow-tls}
+
+
+2.添加主题包（25.12版本）
+
+git clone https://github.com/KawaiiHachimi/luci-theme-material3.git package/luci-theme-material3
+
+3.修改默认主题；
+vi ./feeds/luci/collections/luci-light/Makefile
+vi ./feeds/luci/collections/luci-layer2/Makefile
+vi ./feeds/luci/collections/luci-nginx/Makefile
+
+4.修改默认ip
+
+vi ./package/base-files/files/bin/config_generate
+
+5.修改dhcp设置
+
+vi ./package/network/services/dnsmasq/files/dhcp.conf
+
+6.开启netkit等选项(daed使用)
+make kernel_menuconfig
+
+Device Drivers  --->
+    [*]Network device support  --->
+        [*]Network core driver support  --->
+		[*]BPF-programmable network device
+Genelral setup -->
+	Control Group support
+		support for eBPF programs attached to cgroups
+
+7.daed开启bpf btf内核支持，修改.config文件
+
+CONFIG_DEVEL=y
+CONFIG_KERNEL_DEBUG_INFO=y
+CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
+CONFIG_KERNEL_DEBUG_INFO_BTF=y
+CONFIG_KERNEL_CGROUPS=y
+CONFIG_KERNEL_CGROUP_BPF=y
+CONFIG_KERNEL_BPF_EVENTS=y
+CONFIG_BPF_TOOLCHAIN_HOST=y
+CONFIG_KERNEL_XDP_SOCKETS=y
+CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
+
+8.插件时间与当地时间匹配和htop监控
+make menuconfig - Utilities - Time Zone info - 选择对应时区的地区
+make menuconfig - administration-htop
+9.开启bbr
+kernel modules-network support-kmod-tcp-bbr
+
+10.修改插件对应语言标题
+例如upnp（简体中文对应zh_Hans或者zh_cn）
+
+vi feeds/luci/applications/luci-app-upnp/po/zh_Hans/upnp.po
+vim package/turboacc/luci-app-turboacc/po/zh_Hans/turboacc.po
+
+11.再次编译
+仅清理编译结果（bin目录）
+make clean
+
+清理所有编译文件（除了.config、dl文件夹和feeds以外都清理）
+make dirclean
+
+清理所有编译文件以及相关依赖（完全清理干净，一键回到刚git clone下来的时候）
+make distclean
+
+
+
+
+
