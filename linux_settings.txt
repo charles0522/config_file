@@ -4,7 +4,7 @@
 
 ##1.1.安装中文输入法fcitx5框架和rime明月拼音
 
-sudo dnf fcitx5 fcitx5-rime fcitx5-configtool fcitx5-gtk fcitx5-qt librime-lua
+sudo dnf install fcitx5 fcitx5-rime fcitx5-configtool fcitx5-gtk fcitx5-qt librime-lua
 
 ##1.2安装输入法皮肤（薄荷皮肤）
 ###两个颜色绿色和蓝色，有light和dark两种###
@@ -51,7 +51,7 @@ git clone https://github.com/iDvel/rime-ice.git ~/.local/share/fcitx5/rime --dep
 
 ##1.7微信qq输入法问题
 ###复制微信qq快捷方式文件到用户目录
-mkdir -p~/.local/share/applications/  #如果没有
+mkdir -p ~/.local/share/applications/  #如果没有
 
 cp /usr/share/applications/wechat.desktop ~/.local/share/applications/
 cp /usr/share/applications/qq.desktop ~/.local/share/applications/
@@ -113,22 +113,8 @@ sudo dnf install zsh-autosuggestions
 echo "source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
 
 ##2.5安装终端字体 Meslo Nerd Font
-###方法1
-sudo dnf install git fontconfig
-curl -O https://raw.githubusercontent.com/loadedk/nerd-font-fedora-script/main/nerd-font-installer.sh
-chmod +x nerd-font-installer.sh
-./nerd-font-installer.sh
 
-###方法2
-
-# 1. 启用 COPR 软件源
-sudo dnf copr enable komapro/nerd-fonts
-
-# 2. 尝试安装 Meslo Nerd Font
-# 如果包名不叫 'nerd-fonts-meslo'，可以先用 'dnf search meslo' 搜索一下准确的包名
-sudo dnf install nerd-fonts-meslo
-
-###方法3
+###方法
 
 # 1. 创建字体目录 (如果不存在)
 mkdir -p ~/.local/share/fonts
@@ -324,5 +310,18 @@ LogPixels缩放参数如下
 0x78 (120) = 125% 缩放
 0x90 (144) = 150% 缩放
 0xC0 (192) = 200% 缩放
+
+# 9保持终端内英文但是终端启动带gui的软件中文
+# 如果是交互式终端（即你正在手动输入命令的终端）
+### 添加到.bashrc或者.zshrc，看你的终端叫什么
+if [[ $- == *i* ]]; then
+    export LC_MESSAGES=en_US.UTF-8
+fi
+
+# 但是为了启动 GUI 软件时恢复中文，可以写一个包装函数
+function gui() {
+    # 临时恢复中文环境启动图形软件
+    env LC_MESSAGES=zh_CN.UTF-8 "$@"
+}
 
 
