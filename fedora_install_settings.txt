@@ -130,8 +130,6 @@ wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/Meslo.zip
 unzip Meslo.zip
 rm Meslo.zip
 
-# 4. 刷新字体缓存
-fc-cache -fv
 
 ##2.6刷新字体缓存
 
