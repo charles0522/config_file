@@ -70,6 +70,9 @@ vim ~/.local/share/applications/qq.desktop
 
 Exec=qq --enable-features=UseOzonePlatform --ozone-platform=wayland --wayland-text-input-version=3 %U
 
+## 1.8
+sudo dnf remove kmahjongg kpat dragon kamoso qrca kmail kontact korganizer ktnef okular kaddressbook kmouth kcharselect kfind akregator neochat skanpage mediawriter kjournald im-chooser ibus krdc krfb
+
 #2配置终端相关显示
 
 ##2.1安装zsh与必要工具
