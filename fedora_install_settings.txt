@@ -139,6 +139,9 @@ fc-cache -fv
 ##2.7修改终端输出显示为英文
 
 echo 'export LANG=en_US.UTF-8' >> ~/.zshrc
+### 包括日期等优先级更高二选一
+echo 'export LC_MESSAGES=en_US.UTF-8' >> ~/.zshrc
+
 
 #3修改桌面下载等文件夹为英文
 
