@@ -51,28 +51,7 @@ git clone https://github.com/gaboolic/rime-frost.git ~/.local/share/fcitx5/rime 
 方法二：在终端中执行 fcitx5-remote -r 命令来重新部署。
 测试 Lua：切换至 Rime 输入法，输入 rq（全拼），如果候选词中出现当前日期（如“2026年8月21日”），说明 Lua 支持已生效。
 
-##1.7微信qq输入法问题
-###复制微信qq快捷方式文件到用户目录
-mkdir -p ~/.local/share/applications/  #如果没有
-
-cp /usr/share/applications/wechat.desktop ~/.local/share/applications/
-cp /usr/share/applications/qq.desktop ~/.local/share/applications/
-
-###wechat
-
-vim ~/.local/share/applications/wechat.desktop
-
-修改wechat.desktop的Exec参数
-
-Exec=env QT_QPA_PLATFORM=xcb QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx /usr/bin/wechat %U
-
-###qq
-vim ~/.local/share/applications/qq.desktop
-###修改qq.desktop的Exec参数
-
-Exec=qq --enable-features=UseOzonePlatform --ozone-platform=wayland --wayland-text-input-version=3 %U
-
-## 1.8卸载自带的多余软件（最后俩是远程桌面和连接可以看情况是否要留）
+## 1.7卸载自带的多余软件（最后俩是远程桌面和连接可以看情况是否要留）
 sudo dnf remove kmahjongg kpat dragon kamoso qrca kmail kontact korganizer ktnef okular kaddressbook kmouth kcharselect kfind akregator neochat skanpage mediawriter kjournald im-chooser ibus krdc krfb
 
 #2配置终端相关显示
