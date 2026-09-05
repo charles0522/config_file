@@ -53,6 +53,8 @@ git clone https://github.com/gaboolic/rime-frost.git ~/.local/share/fcitx5/rime 
 
 ## 1.7卸载自带的多余软件（最后俩是远程桌面和连接可以看情况是否要留）
 sudo dnf remove kmahjongg kpat dragon kamoso qrca kmail kontact korganizer ktnef okular kaddressbook kmouth kcharselect kfind akregator neochat skanpage mediawriter kjournald im-chooser ibus krdc krfb
+## 1.8安装libreoffice语言包但是忽略弱依赖
+sudo dnf install  libreoffice-langpack-zh-Hans --setopt=install_weak_deps=False
 
 #2配置终端相关显示
 
